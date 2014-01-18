@@ -2,9 +2,6 @@
 //  DTBeaconExampleTests.m
 //  DTBeaconExampleTests
 //
-//  Created by Dimitris Tsiflitzis on 1/18/14.
-//  Copyright (c) 2014 Dimitris Tsiflitzis. All rights reserved.
-//
 
 #import <XCTest/XCTest.h>
 

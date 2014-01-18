@@ -21,6 +21,7 @@
 		2E606A5C188AAF93006D0F57 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E606A3E188AAF92006D0F57 /* UIKit.framework */; };
 		2E606A64188AAF93006D0F57 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E606A62188AAF93006D0F57 /* InfoPlist.strings */; };
 		2E606A66188AAF93006D0F57 /* DTBeaconExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E606A65188AAF93006D0F57 /* DTBeaconExampleTests.m */; };
+		2E606A72188AB0E0006D0F57 /* DTBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E606A71188AB0E0006D0F57 /* DTBeacon.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		2E606A61188AAF93006D0F57 /* DTBeaconExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DTBeaconExampleTests-Info.plist"; sourceTree = "<group>"; };
 		2E606A63188AAF93006D0F57 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2E606A65188AAF93006D0F57 /* DTBeaconExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTBeaconExampleTests.m; sourceTree = "<group>"; };
+		2E606A70188AB0E0006D0F57 /* DTBeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTBeacon.h; path = ../DTBeacon/DTBeacon.h; sourceTree = "<group>"; };
+		2E606A71188AB0E0006D0F57 /* DTBeacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTBeacon.m; path = ../DTBeacon/DTBeacon.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +85,7 @@
 		2E606A2E188AAF92006D0F57 = {
 			isa = PBXGroup;
 			children = (
+				2E606A6F188AB0A5006D0F57 /* DTBeacon */,
 				2E606A40188AAF92006D0F57 /* DTBeaconExample */,
 				2E606A5F188AAF93006D0F57 /* DTBeaconExampleTests */,
 				2E606A39188AAF92006D0F57 /* Frameworks */,
@@ -150,6 +154,15 @@
 				2E606A62188AAF93006D0F57 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2E606A6F188AB0A5006D0F57 /* DTBeacon */ = {
+			isa = PBXGroup;
+			children = (
+				2E606A70188AB0E0006D0F57 /* DTBeacon.h */,
+				2E606A71188AB0E0006D0F57 /* DTBeacon.m */,
+			);
+			name = DTBeacon;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E606A4B188AAF92006D0F57 /* DTAppDelegate.m in Sources */,
+				2E606A72188AB0E0006D0F57 /* DTBeacon.m in Sources */,
 				2E606A51188AAF92006D0F57 /* DTViewController.m in Sources */,
 				2E606A47188AAF92006D0F57 /* main.m in Sources */,
 			);
