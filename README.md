@@ -1,4 +1,4 @@
 DTBeacon
 ========
 
-iBeacon Singleton works with notifications
+iBeacon Singleton class, post notifications
