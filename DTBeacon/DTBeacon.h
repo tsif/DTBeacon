@@ -2,6 +2,9 @@
  *  DTBeacon.h
  */
 
+
+#import <CoreLocation/CoreLocation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
 #import <Foundation/Foundation.h>
 
 /* Notification names */

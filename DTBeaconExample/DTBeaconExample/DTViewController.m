@@ -11,9 +11,13 @@
 
 - (void)_proximityNotification:(NSNotification*)notification;
 
+@property(nonatomic, strong) IBOutlet UILabel *proximityLabel;
+
 @end
 
 @implementation DTViewController
+
+@synthesize proximityLabel;
 
 #pragma mark - LIFECYCLE
 
@@ -39,7 +43,22 @@
 
 - (void)_proximityNotification:(NSNotification*)notification {
     
-    NSLog(@"_proximityNotification: %@", [notification userInfo]);
+    NSDictionary *d        = [notification userInfo];
+    NSInteger    proximity = [[d objectForKey:kBeaconProximityKey] integerValue];
+    
+    if(proximity == CLProximityUnknown) {
+        self.proximityLabel.text = @"Unknown Proximity";
+        
+    } else if(proximity == CLProximityImmediate) {
+        self.proximityLabel.text = @"Immediate";
+    
+    } else if(proximity == CLProximityNear) {
+        self.proximityLabel.text = @"Near";
+    
+    } else if(proximity == CLProximityFar) {
+    
+        self.proximityLabel.text = @"Far";
+    }
 }
 
 @end

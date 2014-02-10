@@ -3,9 +3,6 @@
  */
 
 
-#import <CoreLocation/CoreLocation.h>
-#import <CoreBluetooth/CoreBluetooth.h>
-
 #import "DTBeacon.h"
 
 NSString *const   kBeaconPeripheralManagerStateNotification = @"kBeaconPeripheralManagerStateNotification";
