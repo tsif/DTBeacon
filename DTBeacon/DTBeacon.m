@@ -64,7 +64,7 @@ static   DTBeacon *_defaultManager                          = NULL;
 - (void)initRegion {
     
     NSUUID *uuid  = [[NSUUID alloc] initWithUUIDString:kBeaconUUID];
-    _beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:@"com.devfright.myRegion"];
+    _beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:@"com.sprimp.DTBeaconExample"];
     
     [_locationManager startMonitoringForRegion:_beaconRegion];
 }
