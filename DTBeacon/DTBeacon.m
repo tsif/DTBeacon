@@ -8,8 +8,17 @@
 
 #import "DTBeacon.h"
 
-NSString *const kBeaconUUID      = @"7bf9c270-9258-11e3-baa8-0800200c9a66";
-static DTBeacon *_defaultManager = NULL;
+NSString *const   kBeaconPeripheralManagerStateNotification = @"kBeaconPeripheralManagerStateNotification";
+NSString *const   kBeaconPeripheralManagerStateKey          = @"kBeaconPeripheralManagerStateKey";
+
+NSString *const   kBeaconEnteredRegionNotification          = @"kBeaconEnteredRegionNotification";
+NSString *const   kBeaconExiteRegionNotification            = @"kBeaconExiteRegionNotification";
+
+NSString *const   kBeaconProximityNotification              = @"kBeaconProximityNotification";
+NSString *const   kBeaconProximityKey                       = @"kBeaconProximityKey";
+
+NSString *const   kBeaconUUID                               = @"7bf9c270-9258-11e3-baa8-0800200c9a66";
+static   DTBeacon *_defaultManager                          = NULL;
 
 @interface DTBeacon() {
 	
@@ -77,13 +86,18 @@ static DTBeacon *_defaultManager = NULL;
 
 -(void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
     
-    if (peripheral.state == CBPeripheralManagerStatePoweredOn) {
+    if(peripheral.state == CBPeripheralManagerStatePoweredOn) {
         [_peripheralManager startAdvertising:_beaconPeripheralData];
-    
-    } else if (peripheral.state == CBPeripheralManagerStatePoweredOff) {
+        
+    } else if(peripheral.state == CBPeripheralManagerStatePoweredOff) {
         
         [_peripheralManager stopAdvertising];
     }
+    
+    /* notify observers */
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBeaconPeripheralManagerStateNotification
+                                                        object:nil
+                                                      userInfo:@{kBeaconPeripheralManagerStateKey : @(peripheral.state)}];
 }
 
 #pragma mark - REGION DELEGATE
@@ -93,19 +107,27 @@ static DTBeacon *_defaultManager = NULL;
     CLBeacon *beacon = [[CLBeacon alloc] init];
     beacon           = [beacons lastObject];
     
-    if (beacon.proximity == CLProximityUnknown) {
-    } else if (beacon.proximity == CLProximityImmediate) {
-    } else if (beacon.proximity == CLProximityNear) {
-    } else if (beacon.proximity == CLProximityFar) {
-    }
+    /* notify observers */
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBeaconProximityNotification
+                                                        object:nil
+                                                      userInfo:@{kBeaconProximityKey : @(beacon.proximity)}];
+    
 }
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+    
     [_locationManager startRangingBeaconsInRegion:_beaconRegion];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBeaconEnteredRegionNotification
+                                                        object:nil];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
+    
     [_locationManager stopRangingBeaconsInRegion:_beaconRegion];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBeaconExiteRegionNotification
+                                                        object:nil];
 }
 
 @end
