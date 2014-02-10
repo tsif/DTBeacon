@@ -2,9 +2,19 @@
  *  DTBeacon.m
  */
 
+
+#import <CoreLocation/CoreLocation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+
 #import "DTBeacon.h"
 
 static DTBeacon *_defaultManager = NULL;
+
+@inteface DTBeacon() {
+	
+}
+
+@end
 
 @implementation DTBeacon
 
@@ -26,6 +36,11 @@ static DTBeacon *_defaultManager = NULL;
     if (self) {
     }
     return self;
+}
+
+- (void)_initBeacon {
+	
+    return;
 }
 
 #pragma mark - SINGLETON OVERRIDES
