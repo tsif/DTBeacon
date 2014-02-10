@@ -3,24 +3,43 @@
 //  DTBeaconExample
 //
 
+#import "DTBeacon.h"
+
 #import "DTViewController.h"
 
-@interface DTViewController ()
+@interface DTViewController()
+
+- (void)_proximityNotification:(NSNotification*)notification;
 
 @end
 
 @implementation DTViewController
 
-- (void)viewDidLoad
-{
+#pragma mark - LIFECYCLE
+
+- (void)viewDidLoad {
+    
+    /* subscribe to the proximity notification */
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(_proximityNotification:)
+                                                 name:kBeaconProximityNotification
+                                               object:nil];
+    
+    /* initialise region detection */
+    [[DTBeacon alloc] initRegion];
+    
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - NOTIFICATION
+
+- (void)_proximityNotification:(NSNotification*)notification {
+    
+    NSLog(@"_proximityNotification: %@", [notification userInfo]);
 }
 
 @end
