@@ -8,10 +8,15 @@
 
 #import "DTBeacon.h"
 
+NSString *const kBeaconUUID      = @"7bf9c270-9258-11e3-baa8-0800200c9a66";
 static DTBeacon *_defaultManager = NULL;
 
-@inteface DTBeacon() {
+@interface DTBeacon() {
 	
+    CLBeaconRegion      *_beaconRegion;
+    CLLocationManager   *_locationManager;
+    CBPeripheralManager *_peripheralManager;
+    NSDictionary        *_beaconPeripheralData;
 }
 
 @end
@@ -22,6 +27,7 @@ static DTBeacon *_defaultManager = NULL;
 
 /* Access to singleton */
 + (DTBeacon*)sharedInstance {
+    
 	@synchronized (self) {
 		if (_defaultManager == nil) {
 			_defaultManager = [[DTBeacon alloc] init];
@@ -38,30 +44,68 @@ static DTBeacon *_defaultManager = NULL;
     return self;
 }
 
-- (void)_initBeacon {
+- (void)initBeacon {
 	
+    NSUUID *uuid  = [[NSUUID alloc] initWithUUIDString:kBeaconUUID];
+    _beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid
+                                                                major:1
+                                                                minor:1
+                                                           identifier:@"com.sprimp.DTBeaconExample"];
+    
     return;
 }
 
-#pragma mark - SINGLETON OVERRIDES
-
-/* Retain does nothing you just return the same object */
-- (id)retain {
-    return self;
+- (void)initRegion {
+    
+    NSUUID *uuid  = [[NSUUID alloc] initWithUUIDString:kBeaconUUID];
+    _beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:@"com.devfright.myRegion"];
+    
+    [_locationManager startMonitoringForRegion:_beaconRegion];
 }
 
-/* denotes an object that cannot be released */
-- (NSUInteger)retainCount {
-    return NSUIntegerMax;
+#pragma mark - TRANSMIT
+
+- (void)transmitBeacon {
+    
+    _beaconPeripheralData = [_beaconRegion peripheralDataWithMeasuredPower:nil];
+    _peripheralManager    = [[CBPeripheralManager alloc] initWithDelegate:self
+                                                                    queue:nil
+                                                                  options:nil];
 }
 
-/* Release does nothing */
-- (oneway void)release {
+#pragma mark - TRASMIT DELEGATE
+
+-(void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
+    
+    if (peripheral.state == CBPeripheralManagerStatePoweredOn) {
+        [_peripheralManager startAdvertising:_beaconPeripheralData];
+    
+    } else if (peripheral.state == CBPeripheralManagerStatePoweredOff) {
+        
+        [_peripheralManager stopAdvertising];
+    }
 }
 
-/* Autorelease does nothing */
-- (id)autorelease {
-    return self;
+#pragma mark - REGION DELEGATE
+
+-(void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region {
+    
+    CLBeacon *beacon = [[CLBeacon alloc] init];
+    beacon           = [beacons lastObject];
+    
+    if (beacon.proximity == CLProximityUnknown) {
+    } else if (beacon.proximity == CLProximityImmediate) {
+    } else if (beacon.proximity == CLProximityNear) {
+    } else if (beacon.proximity == CLProximityFar) {
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+    [_locationManager startRangingBeaconsInRegion:_beaconRegion];
+}
+
+-(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
+    [_locationManager stopRangingBeaconsInRegion:_beaconRegion];
 }
 
 @end
