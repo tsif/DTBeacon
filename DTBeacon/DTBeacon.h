@@ -6,4 +6,6 @@
 
 @interface DTBeacon : NSObject
 
++ (DTBeacon*)sharedInstance;
+
 @end
